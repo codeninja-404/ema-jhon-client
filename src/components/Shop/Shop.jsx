@@ -12,8 +12,10 @@ import { Link, useLoaderData } from "react-router-dom";
 const Shop = () => {
   const [products, setProducts] = useState([]);
   const [cart, setCart] = useState([]);
+  const [currentPage, setCurrentPage] = useState(0);
   const { count } = useLoaderData();
-  const itemsPerPage = 10;
+  const [itemsPerPage, setItemsPerPage] = useState(10);
+
   const numberOfPages = Math.ceil(count / itemsPerPage);
   console.log(count);
 
@@ -27,8 +29,8 @@ const Shop = () => {
   console.log(pages);
   /**
    * done 1: get the total number of products
-   * todo 2: number of items per page dynamic
-   * todo 3:
+   * done 2: number of items per page dynamic
+   * todo 3:get the current page
    */
 
   useEffect(() => {
@@ -81,6 +83,21 @@ const Shop = () => {
     setCart([]);
     deleteShoppingCart();
   };
+  const handleItemsPerPage = (e) => {
+    const value = parseInt(e.target.value);
+    setItemsPerPage(value);
+    setCurrentPage(0);
+  };
+  const handlePrev = () => {
+    if (currentPage > 0) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+  const handleNext = () => {
+    if (currentPage < pages.length-1) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
 
   return (
     <div className="shop-container">
@@ -101,9 +118,36 @@ const Shop = () => {
         </Cart>
       </div>
       <div className="pagination">
+        <button onClick={handlePrev} className="pg">
+          {" "}
+          PREV{" "}
+        </button>
         {pages.map((page) => (
-          <button className="pg" key={page}>{page + 1}</button>
+          <button
+            onClick={() => {
+              setCurrentPage(page);
+            }}
+            className={`pg ${currentPage === page && "selected"}`}
+            key={page}
+          >
+            {page}
+          </button>
         ))}
+        <button onClick={handleNext} className="pg">
+          {" "}
+          NEXT{" "}
+        </button>
+        <select
+          value={itemsPerPage}
+          onChange={handleItemsPerPage}
+          name=""
+          id=""
+        >
+          <option value="5">5</option>
+          <option value="10">10</option>
+          <option value="20">20</option>
+          <option value="30">30</option>
+        </select>
       </div>
     </div>
   );

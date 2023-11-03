@@ -27,9 +27,20 @@
 }
 
 .pagination {
-  margin: 0 auto;
+  text-align: center;
 }
 .pg {
-  margin: 4px;
-  padding: 6px 25px
+  margin: 10px;
+  padding: 6px 25px;
+}
+
+.pagination select {
+  margin: 10px;
+  padding: 10px;
+  border-radius: 10px;
+  background: red;
+  font-size: 1rem;
+}
+.selected {
+  background: orange;
 }
